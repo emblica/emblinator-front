@@ -1,0 +1,56 @@
+.App {
+}
+
+.ui>.ui.menu:first-child {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+}
+
+.ui.large.breadcrumb {
+    margin: 15px 0px;
+}
+
+#root {
+    height: 100%;
+}
+
+#root>.ui.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 40px;
+}
+
+.my-segment {
+    position: relative;
+    flex-grow: 1;
+}
+
+.my-annotator-segment {
+    height: 100%;
+}
+
+img.annotation-preview {
+    display: block;
+}
+
+.pointing.ui.label.job-list-info-label {
+    margin-left: 15px;
+}
+
+table.jobs-table.ui.table {
+    border-collapse: collapse;
+}
+
+.jobs-table.ui.table td {
+    padding: 0;
+    margin: 0;
+    padding: 0;
+}
+.jobs-table td > a {
+    padding: 11px;
+    display: block;
+}
+.jobs-table tr:hover {
+    background-color: #fafafa
+}

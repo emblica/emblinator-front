@@ -1,0 +1,191 @@
+
+
+img.hidden {
+    visibility: hidden;
+}
+
+
+.annotator {
+    flex-grow: 1;
+
+    position: relative;
+
+    >div {
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .paint-fill-tools {
+        box-shadow: none !important;
+
+        .toggle.checkbox {
+            padding-top: 20px;
+        }
+    }
+
+    .accordion-container {
+        position: absolute;
+
+        width: 250px;
+
+        top: 10px;
+        left: 10px;
+        bottom: auto;
+
+        &.active {
+            bottom: 10px;
+        }
+
+        overflow-y: auto;
+
+        z-index: 10;
+
+        margin: 0px;
+        padding: 0px;
+
+        > .ui.styled.accordion,
+        > .accordion {
+            .list>.item {
+                &.active {
+                    .size-indicator {
+                        border: 1px solid black;
+                        background-color: #EEE;
+                    }
+                    span {
+                        font-weight: bold;
+                    }
+                    i {
+                        opacity: 1;
+                    }
+                }
+                i {
+                    opacity: 0.5;
+                }
+                .size-indicator {
+                    border: 1px solid #AAA;
+                }
+            }
+
+            .color-picker {
+                .color-indicator {
+                    &.active {
+                        border: 1px solid black;
+                        opacity: 1.0;
+                    }
+
+                    border: 1px solid transparent;
+                    opacity: 0.5;
+
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 13px;
+
+                    float: left;
+
+                    margin: 5px;
+
+                    i {
+                        margin-left: 4px;
+                        margin-top: 4px;
+                    }
+                }
+            }
+
+            .list {
+                .content {
+                    padding: 0 0 0 .5em;
+                }
+            }
+        }
+    }
+
+    .annotator-image {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+
+        position: relative;
+        padding: 0;
+
+        .button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+
+        .bucket-fill-content {
+            height: 100%;
+            width: 100%;
+
+            .bucket-fill-image-container {
+                position: relative;
+
+                $radius: 10px;
+
+                span {
+                    position: absolute;
+                    width: $radius;
+                    height: $radius;
+                    margin-left: -$radius / 2;
+                    margin-top: -$radius / 2;
+
+                    border-radius: $radius / 2;
+
+                    &.included {
+                        background-color: black;
+                        border: 1px solid white;
+                    }
+                    &.excluded {
+                        background-color: white;
+                        border: 1px solid black;
+                    }
+                }
+                img, canvas{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    display: block;
+                }
+            }
+        }
+
+        .image-container {
+            position: absolute;
+            z-index: 0;
+
+            background-color: #555;
+
+            top: 0px;
+            left: 0px;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            .select-tool-selection {
+                border: 1px dashed #333;
+                position: relative;
+            }
+
+            .paint-fill-dimmer {
+                height: 100%;
+                width: 100%;
+                background-color: black;
+                opacity: 0.7;
+            }
+
+            >img, >canvas, >div {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+
+            .annotator-click-handler {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
