@@ -5,6 +5,7 @@ const config = {
   FILES: '/files',
   FILE_ANNOTATION: '/file_annotations',
   JOBS: '/jobs',
+  JOB: '/job',
 }
 
 export default config
