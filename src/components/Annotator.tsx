@@ -4,12 +4,12 @@ import axios from 'axios'
 import './Annotator.scss'
 import AnnotatorImage from './AnnotatorImage'
 import { IFile } from './FileChooser'
-import { Breadcrumb, Dimmer, Loader } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import { Dimmer, Loader } from 'semantic-ui-react'
 import { showError } from '../utils/Helpers'
 import config from '../config'
 import Tools from './Tools'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import AnnotatorBreadcrumb from './AnnotatorBreadcrumb'
 
 const filesUrl = `${config.API_URL}${config.FILES}`
 const categoriesUrl = `${config.API_URL}${config.CATEGORIES}`
@@ -115,17 +115,7 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
 
   return (
     <React.Fragment>
-      <Breadcrumb size={'large'}>
-        <Breadcrumb.Section link as={Link} to={'/'}>
-          Jobs
-        </Breadcrumb.Section>
-        <Breadcrumb.Divider icon={'right angle'} />
-        <Breadcrumb.Section link as={Link} to={'/jobs/' + jobId}>
-          Files
-        </Breadcrumb.Section>
-        <Breadcrumb.Divider icon={'right angle'} />
-        <Breadcrumb.Section active>Annotate</Breadcrumb.Section>
-      </Breadcrumb>
+      <AnnotatorBreadcrumb jobId={jobId} />
       <div className={'annotator'}>
         {file === undefined ? (
           <div className={'my-annotator-segment'}>
@@ -135,9 +125,7 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
           </div>
         ) : (
           <React.Fragment>
-            <div
-              className={'accordion-container active'}
-            >
+            <div className={'accordion-container active'}>
               <Tools
                 categoryChoice={categoryChoice}
                 categoryChoices={categoryChoices}
