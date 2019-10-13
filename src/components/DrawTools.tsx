@@ -42,7 +42,6 @@ const DrawTools = ({
               <div style={style} className={toolIconClassName}>
                 {choice.id === -1 && <Icon name={'eraser'} />}
                 {choice.id === -2 && <Icon name={'move'} />}
-                {/*{choice.id === -3 && <Icon name={'eye'} />}*/}
               </div>
               <List.Content>
                 <List.Header>{choice.name}</List.Header>

@@ -9,10 +9,12 @@ interface IAnnotationNewProps {
   fileId: string
 }
 
-const AnnotationNew = ({ match }: RouteComponentProps<IAnnotationNewProps>) => {
-  const { jobId, fileId } = match.params
-
-  return <Annotator key={fileId} jobId={jobId} fileId={fileId} />
-}
+const AnnotationNew = ({
+  match: {
+    params: { jobId, fileId },
+  },
+}: RouteComponentProps<IAnnotationNewProps>) => (
+  <Annotator key={fileId} jobId={jobId} fileId={fileId} />
+)
 
 export default AnnotationNew
