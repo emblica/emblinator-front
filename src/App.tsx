@@ -12,10 +12,11 @@ import AnnotationNew from './components/AnnotationNew'
 import AnnotationEdit from './components/AnnotationEdit'
 
 import { ToastContainer } from 'react-toastify'
+import ErrorBoundary from './components/ErrorBoundary'
 
-const App: React.FC = () => {
-  return (
-    <BrowserRouter>
+const App = () => (
+  <BrowserRouter>
+    <ErrorBoundary>
       <Container fluid>
         <Menu>
           <Menu.Item>
@@ -39,8 +40,8 @@ const App: React.FC = () => {
         ></Route>
         <ToastContainer />
       </Container>
-    </BrowserRouter>
-  )
-}
+    </ErrorBoundary>
+  </BrowserRouter>
+)
 
 export default App
