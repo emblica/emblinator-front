@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import axios from 'axios'
 
 import './Annotator.scss'
@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import { showError } from '../utils/Helpers'
 import config from '../config'
 import Tools from './Tools'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 const filesUrl = `${config.API_URL}${config.FILES}`
 const categoriesUrl = `${config.API_URL}${config.CATEGORIES}`
@@ -46,11 +46,11 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
 
   const dispatch = useDispatch()
 
-  React.useEffect(() => {
-    return () => {
-      dispatch({ type: 'CLEAR' })
-    }
-  }, [])
+  const makeClear = useCallback(() => {
+    dispatch({ type: 'CLEAR' })
+  }, [dispatch])
+
+  React.useEffect(makeClear, [makeClear])
 
   const [categoryChoice, setCategoryChoice] = React.useState<ICategory>({
     color: 'drag',
@@ -64,46 +64,45 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
   const [file, setFile] = React.useState<IFile | undefined>(undefined)
   const [categoryChoices, setCategoryChoices] = React.useState<ICategory[]>([])
 
-  const loadFileInfo = async () => {
-    try {
-      const response = await axios.get(filesUrl + '/' + fileId)
-      setFile(response.data)
-    } catch (e) {
-      showError()
-    }
-  }
-
-  const loadCategoryChoices = async () => {
-    try {
-      const response = await axios.get(categoriesUrl, {
-        params: { job_id: jobId },
-      })
-      setCategoryChoices([
-        ...response.data,
-        {
-          color: 'erase',
-          id: -1,
-          job_id: -1,
-          name: 'Erase',
-        },
-        {
-          color: 'drag',
-          id: -2,
-          job_id: -2,
-          name: 'Drag&Drop',
-        },
-      ])
-    } catch (e) {
-      showError()
-    }
-  }
-
   React.useEffect(() => {
+    const loadFileInfo = async () => {
+      try {
+        const response = await axios.get(filesUrl + '/' + fileId)
+        setFile(response.data)
+      } catch (e) {
+        showError()
+      }
+    }
     loadFileInfo()
-  }, [])
+  }, [fileId])
+
   React.useEffect(() => {
+    const loadCategoryChoices = async () => {
+      try {
+        const response = await axios.get(categoriesUrl, {
+          params: { job_id: jobId },
+        })
+        setCategoryChoices([
+          ...response.data,
+          {
+            color: 'erase',
+            id: -1,
+            job_id: -1,
+            name: 'Erase',
+          },
+          {
+            color: 'drag',
+            id: -2,
+            job_id: -2,
+            name: 'Drag&Drop',
+          },
+        ])
+      } catch (e) {
+        showError()
+      }
+    }
     loadCategoryChoices()
-  }, [])
+  }, [jobId])
 
   const onClickColorChoice = (category: ICategory) => {
     setCategoryChoice(category)
@@ -135,9 +134,7 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
           </div>
         ) : (
           <React.Fragment>
-            <div
-              className={'accordion-container active'}
-            >
+            <div className={'accordion-container active'}>
               <Tools
                 categoryChoice={categoryChoice}
                 categoryChoices={categoryChoices}

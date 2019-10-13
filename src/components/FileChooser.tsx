@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import axios from 'axios'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import {
@@ -102,6 +102,7 @@ const AnnotationPreviewButton = ({
   return (
     <React.Fragment>
       <img
+        alt={url}
         src={url}
         className={'annotation-preview'}
         onLoad={() => {
@@ -130,7 +131,6 @@ const StatusButton = ({ file, updateFile }: IStatusButtonProps) => {
           size={'mini'}
           disabled={loading}
           onClick={async () => {
-            console.log('asdf onClick called')
             setLoading(true)
             try {
               const url = `${config.API_URL}${config.FILES}/${file.id}`
@@ -161,23 +161,26 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
   const [loading, setLoading] = React.useState<boolean>(true)
   const filesRef = React.useRef<IFile[]>([])
 
-  const getFileInfo = async (newFilters: string) => {
-    setLoading(true)
-    setFilters(newFilters)
-    try {
-      const response = await axios.get(filesUrl, {
-        params: {
-          annotated: newFilters,
-          job_id: jobId,
-        },
-      })
-      setFiles(response.data)
-      filesRef.current = response.data
-      setLoading(false)
-    } catch (e) {
-      showError()
-    }
-  }
+  const getFileInfo = useCallback(
+    async (newFilters: string) => {
+      setLoading(true)
+      setFilters(newFilters)
+      try {
+        const response = await axios.get(filesUrl, {
+          params: {
+            annotated: newFilters,
+            job_id: jobId,
+          },
+        })
+        setFiles(response.data)
+        filesRef.current = response.data
+        setLoading(false)
+      } catch (e) {
+        showError()
+      }
+    },
+    [jobId],
+  )
 
   const updateFile = (updatedFile: IFile) => {
     const newFiles = filesRef.current.map(file => {
@@ -189,7 +192,7 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
 
   React.useEffect(() => {
     getFileInfo('0')
-  }, [jobId])
+  }, [getFileInfo])
 
   return (
     <React.Fragment>
