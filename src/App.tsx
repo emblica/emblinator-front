@@ -25,18 +25,18 @@ const App: React.FC = () => {
             Jobs
           </Menu.Item>
         </Menu>
-        <Route exact path="/" component={Jobs}></Route>
-        <Route exact path="/jobs/:jobId" component={FileChooser}></Route>
+        <Route exact path="/" component={Jobs} />
+        <Route exact path="/jobs/:jobId" component={FileChooser} />
         <Route
           exact
           path="/jobs/:jobId/annotate/:fileId"
           component={AnnotationNew}
-        ></Route>
+        />
         <Route
           exact
           path="/jobs/:jobId/edit/:annotationId"
           component={AnnotationEdit}
-        ></Route>
+        />
         <ToastContainer />
       </Container>
     </BrowserRouter>
