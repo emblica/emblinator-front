@@ -1,9 +1,4 @@
-import React, {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  SyntheticEvent,
-} from 'react'
+import React, { MutableRefObject, SyntheticEvent, useCallback } from 'react'
 import axios from 'axios'
 import { IFile } from './FileChooser'
 import { Button, Icon } from 'semantic-ui-react'
@@ -14,7 +9,7 @@ import { toast } from 'react-toastify'
 import { showError } from '../utils/Helpers'
 import config from '../config'
 import PaintFiller from './PaintFiller'
-import { IAction, IAnnotatorState, ILine, IPaintFillStatus } from '../Store'
+import { IAnnotatorState, ILine, IPaintFillStatus } from '../Store'
 import { useDispatch, useSelector } from 'react-redux'
 
 interface IAnnotatorImageProps {
@@ -200,20 +195,23 @@ const AnnotatorImage = ({
     }
   }, [])
 
-  const callReDraw = (drawingLines: ILine[], onlyLastLine: boolean) => {
-    reDrawImage(
-      canvasRef.current!,
-      canvasSize,
-      drawingLines,
-      baseFileLoaded,
-      baseImageRef.current!,
-      onlyLastLine,
-    )
-  }
+  const callReDraw = useCallback(
+    (drawingLines: ILine[], onlyLastLine: boolean) => {
+      reDrawImage(
+        canvasRef.current!,
+        canvasSize,
+        drawingLines,
+        baseFileLoaded,
+        baseImageRef.current!,
+        onlyLastLine,
+      )
+    },
+    [canvasSize, baseFileLoaded],
+  )
 
   React.useEffect(() => {
     callReDraw(annotatorState.lines, false)
-  }, [canvasSize, baseFileLoaded])
+  }, [callReDraw, annotatorState.lines])
 
   React.useEffect(() => {
     if (canvasRef.current) {
@@ -222,7 +220,7 @@ const AnnotatorImage = ({
         type: 'SET_CANVAS_REF',
       })
     }
-  }, [canvasRef.current])
+  }, [dispatch])
 
   React.useEffect(() => {
     if (annotatorState.lines.length > 0) {
@@ -233,7 +231,7 @@ const AnnotatorImage = ({
         callReDraw(annotatorState.lines, true)
       }
     }
-  }, [annotatorState.lines])
+  }, [annotatorState.lines, callReDraw])
 
   const undo = () => {
     if (
@@ -603,6 +601,7 @@ const AnnotatorImage = ({
         {/*Hidden image to load the base image*/}
         {baseFileUrl && (
           <img
+            alt={baseFileUrl}
             crossOrigin={'anonymous'}
             className={'hidden'}
             onLoad={() => {
@@ -613,6 +612,7 @@ const AnnotatorImage = ({
           />
         )}
         <img
+          alt={file.signed_url}
           crossOrigin={'anonymous'}
           src={file.signed_url}
           style={zoomStyles}

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import { Accordion, Button, Header, Checkbox } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IAnnotatorState } from '../Store'

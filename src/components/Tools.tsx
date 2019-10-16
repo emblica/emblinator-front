@@ -1,5 +1,5 @@
 import { Accordion, Header, Icon } from 'semantic-ui-react'
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import { IBrushChoice, ICategory } from './Annotator'
 import { Slider } from 'react-semantic-ui-range'
 import DrawTools from './DrawTools'

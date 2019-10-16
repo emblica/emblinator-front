@@ -1,10 +1,9 @@
 import React, {
-  Dispatch,
-  SetStateAction,
   SyntheticEvent,
   useEffect,
   useRef,
   useState,
+  useCallback,
 } from 'react'
 import axios from 'axios'
 import config from '../config'
@@ -49,11 +48,9 @@ const PaintFiller = ({ color, zoom }: IBucketFillProps) => {
         width: originalImgRef.current.width,
       })
     }
-  }, [originalImgRef.current])
+  }, [])
 
-  const onUpdate = async () => {
-    console.log('onUpdate called')
-
+  const onUpdate = useCallback(async () => {
     const url = `${config.API_URL}${config.PAINT_FILL}`
     const rgbColor = hexToRgb(color)
     if (rgbColor === null) {
@@ -74,21 +71,21 @@ const PaintFiller = ({ color, zoom }: IBucketFillProps) => {
       showError()
     }
     setLoading(false)
-  }
+  }, [color, dataString])
 
   useEffect(() => {
     if (canvasRef.current && canvasRef.current.width > 0) {
       onUpdate()
     }
-  }, [canvasRef.current])
+  }, [onUpdate])
 
   useEffect(() => {
     if (canvasRef.current && canvasRef.current.width > 0) {
-      if (paintFillStatus.autoUpdate == true) {
+      if (paintFillStatus.autoUpdate) {
         onUpdate()
       }
     }
-  }, [paintFillStatus.autoUpdate])
+  }, [paintFillStatus.autoUpdate, onUpdate])
 
   const drawOnMouse = (e: React.MouseEvent, drawStyle: 'white' | 'black') => {
     const rect: DOMRect | ClientRect = e.currentTarget!.getBoundingClientRect()
@@ -128,9 +125,10 @@ const PaintFiller = ({ color, zoom }: IBucketFillProps) => {
           return false
         }}
       >
-        <img src={dataString} ref={originalImgRef} />
+        <img alt={dataString} src={dataString} ref={originalImgRef} />
         {maskData && (
           <img
+            alt={maskData}
             onLoad={(event: SyntheticEvent<HTMLImageElement>) => {
               const canvas = document.createElement('canvas')
               canvas.width = size.width
