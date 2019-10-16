@@ -23,12 +23,12 @@ const App: React.FC = () => {
           exact
           path="/jobs/:jobId/annotate/:fileId"
           component={AnnotationNew}
-        ></Route>
+        />
         <Route
           exact
           path="/jobs/:jobId/edit/:annotationId"
           component={AnnotationEdit}
-        ></Route>
+        />
         <ToastContainer />
       </Container>
     </BrowserRouter>
