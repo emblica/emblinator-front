@@ -32,6 +32,7 @@ interface IFileChooserProps {
 }
 
 const filesUrl = `${config.API_URL}${config.FILES}`
+const jobUrl = (id: string) => `${config.API_URL}${config.JOB}/${id}`
 
 interface IAnnotaitonListProps {
   file: IFile
@@ -118,6 +119,11 @@ interface IStatusButtonProps {
   updateFile: (updatedFile: IFile) => void
 }
 
+interface IMinJob {
+  id: number
+  name: string
+}
+
 const StatusButton = ({ file, updateFile }: IStatusButtonProps) => {
   const isDone = file.status === 'done'
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -159,8 +165,8 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
   const [filters, setFilters] = React.useState<string>('0')
   const [files, setFiles] = React.useState<IFile[]>([])
   const [loading, setLoading] = React.useState<boolean>(true)
+  const [job, setJob] = React.useState<IMinJob>({ id: 0, name: '' })
   const filesRef = React.useRef<IFile[]>([])
-
   const getFileInfo = async (newFilters: string) => {
     setLoading(true)
     setFilters(newFilters)
@@ -187,8 +193,18 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
     filesRef.current = newFiles
   }
 
+  const updateJob = (id: string) => {
+    axios
+      .get(jobUrl(id))
+      .then(res => setJob(res.data))
+      .catch(showError)
+  }
+
   React.useEffect(() => {
     getFileInfo('0')
+  }, [jobId])
+  React.useEffect(() => {
+    updateJob(jobId)
   }, [jobId])
 
   return (
@@ -198,7 +214,7 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
           Jobs
         </Breadcrumb.Section>
         <Breadcrumb.Divider icon={'right angle'} />
-        <Breadcrumb.Section active>Files</Breadcrumb.Section>
+        <Breadcrumb.Section active>{job.name}</Breadcrumb.Section>
       </Breadcrumb>
       <div className="ui attached tabular menu">
         <a
