@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import {
@@ -24,8 +24,8 @@ interface IJob {
 }
 
 const Jobs = () => {
-  const [loading, setLoading] = React.useState<boolean>(true)
-  const [jobs, setJobs] = React.useState<IJob[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [jobs, setJobs] = useState<IJob[]>([])
 
   const loadJobs = async () => {
     try {
@@ -37,12 +37,12 @@ const Jobs = () => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     loadJobs()
   }, [])
 
   return (
-    <React.Fragment>
+    <>
       <Breadcrumb size={'large'}>
         <Breadcrumb.Section active>Jobs</Breadcrumb.Section>
       </Breadcrumb>
@@ -62,7 +62,7 @@ const Jobs = () => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {jobs.map(job => {
+            {jobs.map((job: IJob) => {
               return (
                 <Table.Row key={job.id}>
                   <Table.Cell>
@@ -98,7 +98,7 @@ const Jobs = () => {
           </Table.Body>
         </Table>
       )}
-    </React.Fragment>
+    </>
   )
 }
 

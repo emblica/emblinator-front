@@ -1,7 +1,8 @@
 import React, {
-  Dispatch,
+  useState,
+  useEffect,
+  useRef,
   MutableRefObject,
-  SetStateAction,
   SyntheticEvent,
 } from 'react'
 import axios from 'axios'
@@ -143,25 +144,25 @@ const AnnotatorImage = ({
   file,
   baseFileUrl,
 }: IAnnotatorImageProps) => {
-  const canvasRef: MutableRefObject<
-    any
-  > = React.useRef<null | HTMLCanvasElement>(null)
-  const baseImageRef = React.useRef(null)
-  const backgroundImageRef = React.useRef<HTMLImageElement>(null)
+  const canvasRef: MutableRefObject<any> = useRef<null | HTMLCanvasElement>(
+    null,
+  )
+  const baseImageRef = useRef(null)
+  const backgroundImageRef = useRef<HTMLImageElement>(null)
 
   const annotatorState: IAnnotatorState = useSelector((s: IAnnotatorState) => s)
   const dispatch = useDispatch()
 
-  const [transition, setTransition] = React.useState<ITransition>({
+  const [transition, setTransition] = useState<ITransition>({
     x: 0,
     y: 0,
     zoom: 0.2,
   })
-  const [canvasSize, setCanvasSize] = React.useState<ICanvasSize>({
+  const [canvasSize, setCanvasSize] = useState<ICanvasSize>({
     height: 500,
     width: 500,
   })
-  const [dragStatus, setDragStatus] = React.useState<IDragStatus>({
+  const [dragStatus, setDragStatus] = useState<IDragStatus>({
     dragCurrentX: 0,
     dragCurrentY: 0,
     dragStartX: 0,
@@ -170,19 +171,19 @@ const AnnotatorImage = ({
     originalY: 0,
   })
 
-  const [saveStatus, setSaveStatus] = React.useState<string>('dirty')
-  const [savingAndGoingToNext, setSavingAndGoingToNext] = React.useState<
-    boolean
-  >(false)
+  const [saveStatus, setSaveStatus] = useState<string>('dirty')
+  const [savingAndGoingToNext, setSavingAndGoingToNext] = useState<boolean>(
+    false,
+  )
 
-  const [drawing, setDrawing] = React.useState<string>('false')
-  const [baseFileLoaded, setBaseFileLoaded] = React.useState<boolean>(false)
-  const [drawAreaSize, setDrawAreaSize] = React.useState<IDrawAreaSize>({
+  const [drawing, setDrawing] = useState<string>('false')
+  const [baseFileLoaded, setBaseFileLoaded] = useState<boolean>(false)
+  const [drawAreaSize, setDrawAreaSize] = useState<IDrawAreaSize>({
     height: 100,
     width: 100,
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     const updateDrawAreaSize = () => {
       const canvas: HTMLCanvasElement = canvasRef.current!
 
@@ -211,11 +212,11 @@ const AnnotatorImage = ({
     )
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     callReDraw(annotatorState.lines, false)
   }, [canvasSize, baseFileLoaded])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (canvasRef.current) {
       dispatch({
         payload: { canvasRef: canvasRef.current },
@@ -224,7 +225,7 @@ const AnnotatorImage = ({
     }
   }, [canvasRef.current])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (annotatorState.lines.length > 0) {
       if (
         annotatorState.lines[annotatorState.lines.length - 1].checkpoint ===
@@ -434,7 +435,6 @@ const AnnotatorImage = ({
 
   const onMouseDown = (e: React.MouseEvent) => {
     const eventIsDrag = e.button === 2 || categoryChoice.color === 'drag'
-    // const eventIsPaintFill = categoryChoice.color === 'paint-fill'
     const eventIsPaintFill = brushChoice.type === 'paint-fill'
 
     const canvas: HTMLCanvasElement = canvasRef.current!

@@ -52,8 +52,6 @@ const PaintFiller = ({ color, zoom }: IBucketFillProps) => {
   }, [originalImgRef.current])
 
   const onUpdate = async () => {
-    console.log('onUpdate called')
-
     const url = `${config.API_URL}${config.PAINT_FILL}`
     const rgbColor = hexToRgb(color)
     if (rgbColor === null) {

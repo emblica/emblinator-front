@@ -34,7 +34,6 @@ const PaintFillTools = () => {
           checked={annotatorState.paintFillStatus!.autoUpdate}
           onChange={() => {
             dispatch({ type: 'CHANGE_PAINT_FILL_UPDATE_CHECKED' })
-            // console.log('changed')
           }}
         />
       </Accordion>

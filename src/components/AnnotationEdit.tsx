@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import './Annotator.scss'
@@ -26,8 +26,8 @@ const AnnotationEdit = ({
 }: RouteComponentProps<IAnnotationEditProps>) => {
   const { jobId, annotationId } = match.params
 
-  const [loading, setLoading] = React.useState<boolean>(true)
-  const [annotation, setAnnotation] = React.useState<IAnnotation | undefined>(
+  const [loading, setLoading] = useState<boolean>(true)
+  const [annotation, setAnnotation] = useState<IAnnotation | undefined>(
     undefined,
   )
 
@@ -42,7 +42,7 @@ const AnnotationEdit = ({
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     loadAnnotation(annotationId)
   }, [annotationId])
 

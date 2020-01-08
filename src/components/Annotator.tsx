@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import './Annotator.scss'
@@ -46,23 +46,23 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
 
   const dispatch = useDispatch()
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       dispatch({ type: 'CLEAR' })
     }
   }, [])
 
-  const [categoryChoice, setCategoryChoice] = React.useState<ICategory>({
+  const [categoryChoice, setCategoryChoice] = useState<ICategory>({
     color: 'drag',
     id: -2,
     job_id: -2,
     name: '',
   })
-  const [brushChoice, setBrushChoice] = React.useState<IBrushChoice>(
+  const [brushChoice, setBrushChoice] = useState<IBrushChoice>(
     brushSizeChoices[2],
   )
-  const [file, setFile] = React.useState<IFile | undefined>(undefined)
-  const [categoryChoices, setCategoryChoices] = React.useState<ICategory[]>([])
+  const [file, setFile] = useState<IFile | undefined>(undefined)
+  const [categoryChoices, setCategoryChoices] = useState<ICategory[]>([])
 
   const loadFileInfo = async () => {
     try {
@@ -98,10 +98,10 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     loadFileInfo()
   }, [])
-  React.useEffect(() => {
+  useEffect(() => {
     loadCategoryChoices()
   }, [])
 
@@ -114,7 +114,7 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Breadcrumb size={'large'}>
         <Breadcrumb.Section link as={Link} to={'/'}>
           Jobs
@@ -134,10 +134,8 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
             </Dimmer>
           </div>
         ) : (
-          <React.Fragment>
-            <div
-              className={'accordion-container active'}
-            >
+          <>
+            <div className={'accordion-container active'}>
               <Tools
                 categoryChoice={categoryChoice}
                 categoryChoices={categoryChoices}
@@ -154,10 +152,10 @@ const Annotator = ({ fileId, jobId, baseFileUrl }: IAnnotatorProps) => {
               file={file}
               baseFileUrl={baseFileUrl}
             />
-          </React.Fragment>
+          </>
         )}
       </div>
-    </React.Fragment>
+    </>
   )
 }
 

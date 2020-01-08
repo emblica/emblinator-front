@@ -1,5 +1,5 @@
 import { Accordion, Header, Icon } from 'semantic-ui-react'
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { useState } from 'react'
 import { IBrushChoice, ICategory } from './Annotator'
 import { Slider } from 'react-semantic-ui-range'
 import DrawTools from './DrawTools'
@@ -24,7 +24,7 @@ const Tools = ({
   brushChoice,
   categoryChoice,
 }: IToolsProps) => {
-  const [toolsActive, setToolsActive] = React.useState<boolean>(true)
+  const [toolsActive, setToolsActive] = useState<boolean>(true)
 
   const annotatorState: IAnnotatorState = useSelector((s: IAnnotatorState) => s)
   const dispatch = useDispatch()

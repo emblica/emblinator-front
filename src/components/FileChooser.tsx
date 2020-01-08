@@ -50,7 +50,7 @@ const AnnotationList = ({ jobId, file }: IAnnotaitonListProps) => {
       )
 
   return (
-    <React.Fragment>
+    <>
       {file.annotations.length !== shownAnnotations.length && !showAll && (
         <Button
           onClick={() => {
@@ -74,7 +74,7 @@ const AnnotationList = ({ jobId, file }: IAnnotaitonListProps) => {
           )
         })}
       </List>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -101,7 +101,7 @@ const AnnotationPreviewButton = ({
   }
   const url = `${config.API_URL}${config.FILE_ANNOTATION}/preview/${annotation.id}.png`
   return (
-    <React.Fragment>
+    <>
       <img
         src={url}
         className={'annotation-preview'}
@@ -110,7 +110,7 @@ const AnnotationPreviewButton = ({
         }}
       />
       {!imgLoaded && <Loader inline active />}
-    </React.Fragment>
+    </>
   )
 }
 
@@ -129,14 +129,13 @@ const StatusButton = ({ file, updateFile }: IStatusButtonProps) => {
   const [loading, setLoading] = React.useState<boolean>(false)
 
   return (
-    <React.Fragment>
+    <>
       {file.annotations.length > 0 && (
         <Button
           color={isDone ? 'green' : 'red'}
           size={'mini'}
           disabled={loading}
           onClick={async () => {
-            console.log('asdf onClick called')
             setLoading(true)
             try {
               const url = `${config.API_URL}${config.FILES}/${file.id}`
@@ -155,7 +154,7 @@ const StatusButton = ({ file, updateFile }: IStatusButtonProps) => {
           {isDone ? 'Done' : 'Not Done'}
         </Button>
       )}
-    </React.Fragment>
+    </>
   )
 }
 
@@ -208,7 +207,7 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
   }, [jobId])
 
   return (
-    <React.Fragment>
+    <>
       <Breadcrumb size={'large'}>
         <Breadcrumb.Section link as={Link} to={'/'}>
           Jobs
@@ -218,26 +217,20 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
       </Breadcrumb>
       <div className="ui attached tabular menu">
         <a
-          className={'item' + (filters === '0' ? ' active' : '')}
-          onClick={() => {
-            getFileInfo('0')
-          }}
+          className={`item${filters === '0' ? ' active' : ''}`}
+          onClick={() => getFileInfo('0')}
         >
           Non annotated
         </a>
         <a
-          className={'item' + (filters === '1' ? ' active' : '')}
-          onClick={() => {
-            getFileInfo('1')
-          }}
+          className={`item${filters === '1' ? ' active' : ''}`}
+          onClick={() => getFileInfo('1')}
         >
           Annotated
         </a>
         <a
-          className={'item' + (filters === '' ? ' active' : '')}
-          onClick={() => {
-            getFileInfo('')
-          }}
+          className={`item${filters === '' ? ' active' : ''}`}
+          onClick={() => getFileInfo('')}
         >
           All
         </a>
@@ -285,7 +278,7 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
           </Table.Footer>
         </Table>
       )}
-    </React.Fragment>
+    </>
   )
 }
 
