@@ -8,6 +8,7 @@ import {
   List,
   Loader,
   Table,
+  Header,
 } from 'semantic-ui-react'
 import moment from 'moment'
 import { showError } from '../utils/Helpers'
@@ -249,7 +250,7 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
           </Dimmer>
         </div>
       ) : files.length === 0 ? (
-        <p>Nothing here</p>
+        <Header size="small">Nothing here</Header>
       ) : (
         <Table celled>
           <Table.Header>
@@ -280,7 +281,7 @@ const FileChooser = ({ match }: RouteComponentProps<IFileChooserProps>) => {
           </Table.Body>
           <Table.Footer>
             <Table.Row>
-              <Table.HeaderCell colSpan="3">Footer</Table.HeaderCell>
+              <Table.HeaderCell colSpan="3"></Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
         </Table>
